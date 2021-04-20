@@ -1,6 +1,24 @@
-div {
+.postCont {
+    text-align: center;
     background-color: coral;
+<<<<<<< HEAD
 }
 .activated-like {
     color: red;
+=======
+    border: rgb(0, 0, 0) solid 1px;
+    padding: 1rem;
+    width: 15rem;
+    height: auto;
+    display: block;
+    margin: 1rem 2rem;
+    box-shadow: 3px 4px #e04b52
+    
+  }
+
+  .postImg {
+    justify-self: center;
+    height: 12rem;
+    width: auto;
+>>>>>>> 5080104225596bc441fc687994ccddfbb84fb548
   }
