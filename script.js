@@ -109,26 +109,26 @@ toyForm.addEventListener("submit", (e) => {
 
 
 
-
-      // commentFormText=document.createElement('form');
-    // commentFormText.name='myForm';
-    // commentFormText.method='POST';
-    // commentFormText.action='';
+// const dynamicForm = {
+//     commentFormText=document.createElement('form'),
+//     commentFormText.name='myForm',
+//     commentFormText.method='POST',
+//     commentFormText.action='',
     
-    // // commentInput = document.createElement("input");
-    // commentInput.type='TEXT';
-    // commentInput.name='myInput';
-    // commentInput.value='Values of my Input';
-    // commentFormText.appendChild(commentInput);
+//     commentInput = document.createElement("input"),
+//     commentInput.type='TEXT',
+//     commentInput.name='myInput',
+//     commentInput.value='Values of my Input',
+//     commentFormText.appendChild(commentInput),
     
-    // commentInput=document.createElement('INPUT');
-    // commentInput.type='HIDDEN';
-    // commentInput.name='hidden1';
-    // commentInput.value='Values of my hidden1';
-    // commentFormText.appendChild(commentInput);
-    // document.body.appendChild(commentFormText);
-    // commentFormText.submit();
-
+//     commentInput=document.createElement('INPUT'),
+//     commentInput.type='HIDDEN',
+//     commentInput.name='hidden1',
+//     commentInput.value='Values of my hidden1',
+//     commentFormText.appendChild(commentInput),
+//     document.body.appendChild(commentFormText),
+//     commentFormText.submit(),
+// }
 
     // function myFunction() {
     //     let x = document.createElement("FORM");

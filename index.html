@@ -7,27 +7,49 @@
     <!-- <sript defer src="script.js"></sript> -->
     <script defer src="corey.js"></script>
     <!-- <sript defer src="francisco.js"></sript> -->
-    <style rel="stylesheet" href="styles.css"></style>
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">    <title>Document</title>
 </head>
 <body>
-    <form id="new-post" class="ui fluid action input">
-        <input type="text" name="originalPost" placeholder="post your post" autocomplete="off" />
-        <button id="new-post-submit" type="submit" class="ui primary button">Add</button>
-      </form>
-      <br>
-      <input type="text" name="image" value="" placeholder="put an image in" class="input-text"/>
-        <!-- <button id="new-image-submit" type="submit" class="ui primary button">Add</button> -->
-      <br>
+    <form id="new-post" >
+        <input
+            type="text"
+            name="titlePost"
+            value=""
+            placeholder="Enter Post title"
+            class="input-text"
+            autocomplete="off" 
+        />
+        <br/>
+        <input
+            type="text"
+            name="postImage"
+            value=""
+            placeholder="Enter Post Image URL"
+            class="input-text"
+        />
+        <br/>
+        <input
+            type="text"
+            name="postText"
+            value=""
+            placeholder="Enter Your Post"
+            class="input-text"
+            autocomplete="off" 
+        />
+        <br/>
+        <button 
+            id="new-post-submit" 
+            type="submit" 
+            class="ui primary button">
+            Submit Post
+        </button>
       
+        <br/>
       <form id="newComment" class="ui fluid action input">
         <input type="text" name="originalPost" placeholder="post your comment" autocomplete="off" />
         <button id="new-post-submit" type="submit" class="ui primary button">Add</button>
       </form>
 
-      <ol id="commentList" class="ui massive list">
-        <!-- buttons will be in here -->
-      </ol>
 </canvas>
 </body>
 </html>
