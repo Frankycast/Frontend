@@ -1,3 +1,6 @@
 div {
     background-color: coral;
 }
+.activated-like {
+    color: red;
+  }
