@@ -1,145 +1,162 @@
 
-postContainer = document.createElement("div")
-postTitle = document.createElement("h2")
-postForm = document.createElement("form")
-comment = document.createElement("li")
+let postForm = document.querySelector("#new-post");
+let body = document.querySelector("body");
+let posts = [];
 
-likeButton = document.createElement("button")
-disLike = document.createElement("button")
+fetch("http://localhost:3000/Posts")
+  .then((res) => res.json())
+  .then((postsArr) => {
+    postsArr.forEach(function (postObj) {
+      posts = postsArr;
+      postToDom(postObj);
+    });
+  });
 
-//     "id": 1,
-//     "Title": "header",
-//     "Post" : "p",
-//     "image": "<a> http://www.pngmart.com/files/3/Toy-Story-Woody-PNG-Photos.png",
-//     "likes": 8,  <btn>
-//     "Dislikes": 9,  <btn.
-//     "Catagory" : "cats", <id>
-//     "Comments": [        //forEach   <li>
-//       "bullshit"
-//     ]
+function postToDom(postObj) {
+  let postContainer = document.createElement("div");
+  postContainer.className = "postCont";
+  body.append(postContainer);
+  //FC
+//   postContainer.dataset.id = postObj.id
 
-createPost.addEventListener("click", (event) => {
+  let postTitle = document.createElement("h2");
+  postTitle.innerText = postObj.name;
+  postContainer.append(postTitle);
 
+  let postImg = document.createElement("img");
+  postImg.src = postObj.image;
+  postContainer.append(postImg);
+  postImg.className = "postImg";
 
-    var mainForm = document.getElementById("mainForm"),
-        textBox = document.createElement("input");
+  let post = document.createElement("h3");
+  post.innerText = postObj.Post;
+  postContainer.append(post);
 
-    textBox.id="tmpTextBox";
-    textBox.type="text";
+  let commentList = document.createElement("ul");
+  postContainer.append(commentList);
 
-    document.getElementById("clickme").onclick = function () {
-         mainForm.appendChild(textBox);
-    }
+  postObj.Comments.forEach((comments) => {
+    // console.log(comments);
+    let commentLi = document.createElement("li");
+    commentLi.innerText = comments;
+    commentList.append(commentLi);
+  
+  //FC added liked and dislike button
+  let likeButton = document.createElement('button')
+  likeButton.innerText = "👍"
+  likeButton.className = 'likeButton'
 
-    document.getElementById("submitme").onclick = function () {
-        mainForm.removeChild(textBox);
-    }
+  let dislikeButton = document.createElement('button')
+  dislikeButton.innerText = "👎"
+  dislikeButton.className = "dislikeButton"
+  
+  let likeNumber = document.createElement('span')
+    likeNumber.innerText = postObj.likes
+    likeNumber.className = "ammountLikes"
 
-   mainForm.append
+    let dislikeNumber = document.createElement('span')
+    dislikeNumber.innerText = postObj.Dislikes
+    dislikeNumber.className = "ammountOfDislike"
+
+  likeButton.append(likeNumber)
+  dislikeButton.append(dislikeNumber)
+
+  postContainer.append(likeButton, dislikeButton)
+// franky add comment button
+  let commentButton = document.createElement('button')
+  commentButton.innerText = "Comment"
+  commentButton.className = 'commentB'
+
+  postContainer.append(commentButton)
+  //FC added delete button
+  let deletePost = document.createElement(`button`)
+  deletePost.innerText = "Delete Post"
+  deletePost.className = "delete"
+
+  postContainer.append(deletePost)
+//  });
+// }
+//FC add eventLisener for every delete button
+deletePost.addEventListener('click', (f) =>{
+    // console.log(`http://localhost:3000/Posts/${postObj.id}`)
+    fetch(`http://localhost:3000/Posts/${postObj.id}`,{
+        method:"DELETE"  
+    })
+    .then(res => res.json)
+    .then((deleted) => {
+    postContainer.remove()
+    })
 })
 
 
-
-
-    
-
-// let postForm = document.createElement("form");
-// postForm.setAttribute('method',"post");
-// postForm.setAttribute('action',"submit.php");
-
-// var i = document.createElement("input"); //input element, text
-// i.setAttribute('type',"text");
-// i.setAttribute('name',"username");
-
-// var s = document.createElement("input"); //input element, Submit button
-// s.setAttribute('type',"submit");
-// s.setAttribute('value',"Submit");
-
-// postForm.appendChild(i);
-// postForm.appendChild(s);
-
-//and some more input elements here
-//and dont forget to add a submit button
-
-// document.getElementsByTagName('body')[0].appendChild(postForm);
-
-
-// MOUSE LOCATION 
-
-function printMousePos() {
-    var cursorX;
-    var cursorY;
-    document.onmousemove = function(e){
-    cursorX = e.pageX;
-    cursorY = e.pageY;
-document.getElementById('test').innerHTML = "x: " + cursorX + ", y: " + cursorY;
+//FC add eventListener for every like 
+likeButton.addEventListener(`click`, (e) =>{
+// console.log(likeButton)
+// console.log(`http://localhost:3000/Posts/${postObj.id}`)
+fetch(`http://localhost:3000/Posts/${postObj.id}`,{
+method:"PATCH",
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify({
+  likes: postObj.likes + 1
+   })
+ })
+.then(res => res.json())
+.then((upDatedLikes) => {
+    likeNumber.innerText = `${upDatedLikes.likes}`
+})
+})
+//FC Dislike button numbers goes up
+dislikeButton.addEventListener(`click`, (b) => {
+console.log(`http://localhost:3000/Posts/${postObj.id}`)
+fetch(`http://localhost:3000/Posts/${postObj.id}`, {
+    method:"PATCH",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+        Dislikes: postObj.Dislikes - 1
+    })    
+})
+.then(res => res.json())
+.then((upDatedDislikes) => {
+    dislikeNumber.innerText = `${upDatedDislikes.Dislikes}`
+})
+})
+});
 }
-}
+postForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  // console.log(event.target.titlePost.value);
+  // console.log(event.target.postImage.value);
+  // console.log(event.target.postText.value);
 
-toyForm.addEventListener("submit", (e) => {
-    e.preventDefault()
-    // event -> form -> input -> value
-    // form -> input -> value
-    // input -> value
-
-    
-    let nameVar = e.target.name.value
-    let imageVar = e.target.image.value
-  
-    fetch(`http://localhost:3000/toys`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: nameVar,
-        image: imageVar,
-        likes: 100
-      })
-    })
-      .then(res => res.json())
-      .then((newToy) => {
-        // RENDER DOM
-        renderToyCard(newToy)
-        e.target.reset()
-      })
-  
-  
+  let disLikeCount = document.querySelector('span.ammountOfDislike')
+  let likeCount = document.querySelector('span.ammountLikes')
+  let whatUserTitles = event.target.titlePost.value;
+  let imgLink = event.target.postImage.value;
+  let postText = event.target.postText.value;
+  likeVar = likeCount
+ dislikeVar = disLikeCount
+//  debugger;
+  fetch("http://localhost:3000/Posts/", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      name: whatUserTitles,
+      Post: postText,
+      image: imgLink,
+      likes: 0,
+      Dislikes: 0,
+      Comments: []
+    }),
   })
-
-
-
-// const dynamicForm = {
-//     commentFormText=document.createElement('form'),
-//     commentFormText.name='myForm',
-//     commentFormText.method='POST',
-//     commentFormText.action='',
-    
-//     commentInput = document.createElement("input"),
-//     commentInput.type='TEXT',
-//     commentInput.name='myInput',
-//     commentInput.value='Values of my Input',
-//     commentFormText.appendChild(commentInput),
-    
-//     commentInput=document.createElement('INPUT'),
-//     commentInput.type='HIDDEN',
-//     commentInput.name='hidden1',
-//     commentInput.value='Values of my hidden1',
-//     commentFormText.appendChild(commentInput),
-//     document.body.appendChild(commentFormText),
-//     commentFormText.submit(),
-// }
-
-    // function myFunction() {
-    //     let x = document.createElement("FORM");
-    //     x.setAttribute("id", "myForm");
-    //     document.body.appendChild(x);
-      
-    //     let y = document.createElement("INPUT");
-    //     y.setAttribute("type", "text");
-    //     y.setAttribute("value", "Donald");
-    //     document.getElementById("myForm").appendChild(y);
-    //   }
+    .then((res) => res.json())
+    .then((newlyCreatedPost) => {
+      console.log(newlyCreatedPost)
+      postToDom(newlyCreatedPost);
+      event.target.reset();
+    })
+})
 
 
 
