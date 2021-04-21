@@ -44,7 +44,6 @@ function postToDom(postObj) {
     commentLi.innerText = comments;
     commentList.append(commentLi);
   
-<<<<<<< HEAD
   //FC added liked and dislike button
   let likeButton = document.createElement('button')
   likeButton.innerText = "👍"
@@ -90,46 +89,45 @@ deletePost.addEventListener('click', (f) =>{
     .then((deleted) => {
     postContainer.remove()
     })
-})
-=======
+// })
   
 
 
-  })
+//   })
 
   
-  let commentForm = document.createElement("form")
-  commentForm.id = "commentForm"
-  commentForm.type = "text"
-  postContainer.append(commentForm)
+//   let commentForm = document.createElement("form")
+//   commentForm.id = "commentForm"
+//   commentForm.type = "text"
+//   postContainer.append(commentForm)
   
-  let commentInput = document.createElement("input")
-  commentInput.id = "commentInput"
-  commentInput.type = "text"
-  commentInput.placeholder = "Leave a comment"
-  commentForm.appendChild(commentInput),
+//   let commentInput = document.createElement("input")
+//   commentInput.id = "commentInput"
+//   commentInput.type = "text"
+//   commentInput.placeholder = "Leave a comment"
+//   commentForm.appendChild(commentInput),
   
-  commentSubmit = document.createElement("button")
-  commentSubmit.id = "commentSubmit"
-  commentSubmit.type = "submit"
-  commentSubmit.innerText = "Submit"
-  commentForm.appendChild(commentSubmit)
+//   commentSubmit = document.createElement("button")
+//   commentSubmit.id = "commentSubmit"
+//   commentSubmit.type = "submit"
+//   commentSubmit.innerText = "Submit"
+//   commentForm.appendChild(commentSubmit)
 
 
 
-  commmentForm.addEventListener("submit", (event) => {
-        event.preventDefault()
-        newCommentText = event.target.commentInput.value
-        commentSubmit = event.target.CommentSubmit.value
-        let commentLi = document.createElement("li")        
-          commentLi.innerText = newCommentText
-        commentList.append(commentLi)
+//   commmentForm.addEventListener("submit", (event) => {
+//         event.preventDefault()
+//         newCommentText = event.target.commentInput.value
+//         commentSubmit = event.target.CommentSubmit.value
+//         let commentLi = document.createElement("li")        
+//           commentLi.innerText = newCommentText
+//         commentList.append(commentLi)
 
-        // newIngredientName = newIngredientForm.name.value
-        // let ingredientLi = document.createElement("li")
-        //       ingredientLi.innerText = newIngredientName
-        //   ingredientsUl.append(ingredientLi)
-      })
+//         // newIngredientName = newIngredientForm.name.value
+//         // let ingredientLi = document.createElement("li")
+//         //       ingredientLi.innerText = newIngredientName
+//         //   ingredientsUl.append(ingredientLi)
+//       })
     }
 //   
 // clickfunction.addeventListener("click", (event)=>{
@@ -176,7 +174,6 @@ deletePost.addEventListener('click', (f) =>{
 
 
 
->>>>>>> 06b1e1fee278df3cf5939d7bd90e56004f45ce01
 
 
 //FC add eventListener for every like 
@@ -248,43 +245,3 @@ postForm.addEventListener("submit", function (event) {
     })
 })
 
-<<<<<<< HEAD
-
-// commentForm = document.createElement("form")
-// commentForm.id = "comment-form"
-// commentForm.type = "text"
-// body.append(commentForm)
-
-// commentInput = document.createElement("input")
-// commentInput.type = "text"
-// commentInput.placeholder
-
-
-
-// commmentForm.addEventListener("submit", (event) => {
-//         event.preventDefault(
-//         console.log(event.target.originalPost.value)
-
-//         let whatUserComments = event.target..value
-//         let comment = document.createElement("li")
-//         comment.append(whatUserComments)
-//         commentList.append(comment)
-//         postContainer.append(comment)
-
-//         let commentBtn = document.createElement("INPUT");
-//         commentBtn.setAttribute("type", "button");
-//         commentBtn.append(postContainer)
-
-// <<<<<<< HEAD
-//         // let commentBtn = document.createElement("INPUT");
-//         // commentBtn.setAttribute("type", "button");
-//         // commentBtn.append(postContainer)
-
-//     })
-   
-// =======
-// })
-// })
-// >>>>>>> 5080104225596bc441fc687994ccddfbb84fb548
-=======
->>>>>>> 06b1e1fee278df3cf5939d7bd90e56004f45ce01

@@ -66,6 +66,7 @@ function postToDom(postObj) {
   dislikeButton.append(dislikeNumber)
 
   postContainer.append(likeButton, dislikeButton)
+  
   //added delete button
   let deletePost = document.createElement(`button`)
   deletePost.innerText = "Delete Post"
@@ -74,11 +75,50 @@ function postToDom(postObj) {
   postContainer.append(deletePost)
 
   // added comments 
+  let commentForm = document.createElement("form")
+  commentForm.id = "commentForm"
+  commentForm.type = "text"
+  postContainer.append(commentForm)
   
+  let commentInput = document.createElement("input")
+  commentInput.id = "commentInput"
+  commentInput.type = "text"
+  commentInput.placeholder = "Leave a comment"
+  commentForm.appendChild(commentInput),
+  
+  commentSubmit = document.createElement("button")
+  commentSubmit.id = "commentSubmit"
+  commentSubmit.type = "submit"
+  commentSubmit.innerText = "Submit"
+  commentForm.appendChild(commentSubmit)
 
-//add eventLisener for every delete button
+
+  //add an evenListener for every Submit button
+commentForm.addEventListener("submit",(e)  => {
+e.preventDefault()
+// debugger
+let whatsInCommit = e.target.commentInput.value
+fetch(`http://localhost:3000/Posts/${postObj.id}`, {
+   method:"PATCH",
+   headers:{'Content-type':'application/Json'},
+   body:JSON.stringify({
+       Comments: whatsInCommit
+   })
+})
+.then(res=>res.json())
+.then((newCommit) =>{
+let li = document.createElement('li')
+let deleteComment = document.createElement('button')
+deleteComment.innerText = 'X'
+  li.append(deleteComment)
+  li.innerText = newCommit.Comments
+  postContainer.append(li)
+})
+})
+
+//add eventListener for every delete button
 deletePost.addEventListener('click', (f) =>{
-    // console.log(`http://localhost:3000/Posts/${postObj.id}`)
+    console.log(`http://localhost:3000/Posts/${postObj.id}`)
     fetch(`http://localhost:3000/Posts/${postObj.id}`,{
         method:"DELETE"  
     })
@@ -156,12 +196,3 @@ postForm.addEventListener("submit", function (event) {
       event.target.reset();
     })
 })
-
-
-
-
-
-  
-
-
-
