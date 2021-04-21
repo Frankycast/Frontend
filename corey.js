@@ -32,16 +32,101 @@ function postToDom(postObj) {
   post.innerText = postObj.Post;
   postContainer.append(post);
 
-  let commentList = document.createElement("ul");
-  postContainer.append(commentList);
-
   postObj.Comments.forEach((comments) => {
     // console.log(comments);
+    let commentList = document.createElement("ul");
+    commentList.className = "postUl"
+    postContainer.append(commentList);
+  
     let commentLi = document.createElement("li");
     commentLi.innerText = comments;
     commentList.append(commentLi);
-  });
-}
+  
+  
+
+
+  })
+
+  
+  let commentForm = document.createElement("form")
+  commentForm.id = "commentForm"
+  commentForm.type = "text"
+  postContainer.append(commentForm)
+  
+  let commentInput = document.createElement("input")
+  commentInput.id = "commentInput"
+  commentInput.type = "text"
+  commentInput.placeholder = "Leave a comment"
+  commentForm.appendChild(commentInput),
+  
+  commentSubmit = document.createElement("button")
+  commentSubmit.id = "commentSubmit"
+  commentSubmit.type = "submit"
+  commentSubmit.innerText = "Submit"
+  commentForm.appendChild(commentSubmit)
+
+
+
+  commmentForm.addEventListener("submit", (event) => {
+        event.preventDefault()
+        newCommentText = event.target.commentInput.value
+        commentSubmit = event.target.CommentSubmit.value
+        let commentLi = document.createElement("li")        
+          commentLi.innerText = newCommentText
+        commentList.append(commentLi)
+
+        // newIngredientName = newIngredientForm.name.value
+        // let ingredientLi = document.createElement("li")
+        //       ingredientLi.innerText = newIngredientName
+        //   ingredientsUl.append(ingredientLi)
+      })
+    }
+//   
+// clickfunction.addeventListener("click", (event)=>{
+//   if screen value === size value
+//     return zoom 
+//   else {
+//      create/appened post form at x/y location
+//     }
+//    else if x/y === post location
+//    bring post to front 
+      // }
+
+// 
+//  
+//      post form appends to clickfunction location
+// 
+// 
+//      find x/y coordinates
+// 
+// 
+// 
+
+        // fetch("http://localhost:3000/Posts/", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     Comments: [
+        //       textComment
+        //     ]
+        //   }),
+        // })
+        //   .then((res) => res.json())
+        //   .then((newComment) => {
+        //     console.log(newComment)
+        //     postToDom(newComment);
+        //     event.target.reset();
+          // })
+      
+
+
+// })
+
+
+
+
 
 postForm.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -73,31 +158,3 @@ postForm.addEventListener("submit", function (event) {
     })
 })
 
-
-commentForm = document.createElement("form")
-commentForm.id = "comment-form"
-commentForm.type = "text"
-body.append(commentForm)
-
-commentInput = document.createElement("input")
-commentInput.type = "text"
-commentInput.placeholder
-
-
-
-commmentForm.addEventListener("submit", (event) => {
-        event.preventDefault(
-        console.log(event.target.originalPost.value)
-
-        let whatUserComments = event.target..value
-        let comment = document.createElement("li")
-        comment.append(whatUserComments)
-        commentList.append(comment)
-        postContainer.append(comment)
-
-        let commentBtn = document.createElement("INPUT");
-        commentBtn.setAttribute("type", "button");
-        commentBtn.append(postContainer)
-
-})
-})
