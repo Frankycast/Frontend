@@ -1,16 +1,39 @@
+#body {
+  height: 1000rem;
+  width: 1000rem;
+
+}
+
+* {
+font-family: futura;
+}
+
 .postCont {
-    text-align: center;
-    background-color: coral;
+    text-align: left;
+    border-radius: 25px;
+    background-color:white;
     border: rgb(0, 0, 0) solid 1px;
     padding: 1rem;
     width: 15rem;
     height: auto;
     display: block;
     margin: 1rem 2rem;
-    box-shadow: 3px 4px #e04b52
+    box-shadow: 3px 4px black
     
   }
 
+ul {
+    list-style-type: none;
+}
+
+ li {
+  text-align: left;
+  border-radius: 25px;
+  background-color:white;
+  border: rgb(0, 0, 0) solid 1px;
+  
+ }
+  
   .postImg {
     justify-self: center;
     height: 12rem;

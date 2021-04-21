@@ -3,6 +3,8 @@ let postForm = document.querySelector("#new-post");
 let body = document.querySelector("body");
 let posts = [];
 
+
+// Get information
 fetch("http://localhost:3000/Posts")
   .then((res) => res.json())
   .then((postsArr) => {
@@ -13,47 +15,49 @@ fetch("http://localhost:3000/Posts")
   });
 
 function postToDom(postObj) {
+  //creating elements in Dom
+
+  // added a div
   let postContainer = document.createElement("div");
   postContainer.className = "postCont";
   body.append(postContainer);
-  //FC
-//   postContainer.dataset.id = postObj.id
-
+ 
+  // added a "h2" for Title
   let postTitle = document.createElement("h2");
   postTitle.innerText = postObj.name;
   postContainer.append(postTitle);
 
+  // added a Img
   let postImg = document.createElement("img");
   postImg.src = postObj.image;
   postContainer.append(postImg);
   postImg.className = "postImg";
 
+  // added a "h3" for post
   let post = document.createElement("h3");
   post.innerText = postObj.Post;
   postContainer.append(post);
 
+  // added a "ul" for comments
   let commentList = document.createElement("ul");
   postContainer.append(commentList);
 
-  postObj.Comments.forEach((comments) => {
-    // console.log(comments);
-    let commentLi = document.createElement("li");
-    commentLi.innerText = comments;
-    commentList.append(commentLi);
-  
-  //FC added liked and dislike button
-  let likeButton = document.createElement('button')
+  // added a 'button' for the like button
+    let likeButton = document.createElement('button')
   likeButton.innerText = "👍"
   likeButton.className = 'likeButton'
 
+  // added a 'button' for the dislike button
   let dislikeButton = document.createElement('button')
   dislikeButton.innerText = "👎"
   dislikeButton.className = "dislikeButton"
   
-  let likeNumber = document.createElement('span')
+  // added a 'span' for the ammount of likes
+    let likeNumber = document.createElement('span')
     likeNumber.innerText = postObj.likes
     likeNumber.className = "ammountLikes"
 
+    // added a 'span' for the ammount of dislikes
     let dislikeNumber = document.createElement('span')
     dislikeNumber.innerText = postObj.Dislikes
     dislikeNumber.className = "ammountOfDislike"
@@ -62,21 +66,16 @@ function postToDom(postObj) {
   dislikeButton.append(dislikeNumber)
 
   postContainer.append(likeButton, dislikeButton)
-// franky add comment button
-  let commentButton = document.createElement('button')
-  commentButton.innerText = "Comment"
-  commentButton.className = 'commentB'
-
-  postContainer.append(commentButton)
-  //FC added delete button
+  //added delete button
   let deletePost = document.createElement(`button`)
   deletePost.innerText = "Delete Post"
   deletePost.className = "delete"
-
+  
   postContainer.append(deletePost)
-//  });
-// }
-//FC add eventLisener for every delete button
+
+  
+
+//add eventLisener for every delete button
 deletePost.addEventListener('click', (f) =>{
     // console.log(`http://localhost:3000/Posts/${postObj.id}`)
     fetch(`http://localhost:3000/Posts/${postObj.id}`,{
@@ -89,9 +88,8 @@ deletePost.addEventListener('click', (f) =>{
 })
 
 
-//FC add eventListener for every like 
+//added eventListener for every like 
 likeButton.addEventListener(`click`, (e) =>{
-// console.log(likeButton)
 // console.log(`http://localhost:3000/Posts/${postObj.id}`)
 fetch(`http://localhost:3000/Posts/${postObj.id}`,{
 method:"PATCH",
@@ -105,7 +103,7 @@ body: JSON.stringify({
     likeNumber.innerText = `${upDatedLikes.likes}`
 })
 })
-//FC Dislike button numbers goes up
+//added an eventListener for every Dislike button 
 dislikeButton.addEventListener(`click`, (b) => {
 console.log(`http://localhost:3000/Posts/${postObj.id}`)
 fetch(`http://localhost:3000/Posts/${postObj.id}`, {
@@ -120,7 +118,7 @@ fetch(`http://localhost:3000/Posts/${postObj.id}`, {
     dislikeNumber.innerText = `${upDatedDislikes.Dislikes}`
 })
 })
-});
+// });
 }
 postForm.addEventListener("submit", function (event) {
   event.preventDefault();

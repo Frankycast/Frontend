@@ -34,15 +34,17 @@ function postToDom(postObj) {
   post.innerText = postObj.Post;
   postContainer.append(post);
 
-  let commentList = document.createElement("ul");
-  postContainer.append(commentList);
-
   postObj.Comments.forEach((comments) => {
     // console.log(comments);
+    let commentList = document.createElement("ul");
+    commentList.className = "postUl"
+    postContainer.append(commentList);
+  
     let commentLi = document.createElement("li");
     commentLi.innerText = comments;
     commentList.append(commentLi);
   
+<<<<<<< HEAD
   //FC added liked and dislike button
   let likeButton = document.createElement('button')
   likeButton.innerText = "👍"
@@ -89,6 +91,92 @@ deletePost.addEventListener('click', (f) =>{
     postContainer.remove()
     })
 })
+=======
+  
+
+
+  })
+
+  
+  let commentForm = document.createElement("form")
+  commentForm.id = "commentForm"
+  commentForm.type = "text"
+  postContainer.append(commentForm)
+  
+  let commentInput = document.createElement("input")
+  commentInput.id = "commentInput"
+  commentInput.type = "text"
+  commentInput.placeholder = "Leave a comment"
+  commentForm.appendChild(commentInput),
+  
+  commentSubmit = document.createElement("button")
+  commentSubmit.id = "commentSubmit"
+  commentSubmit.type = "submit"
+  commentSubmit.innerText = "Submit"
+  commentForm.appendChild(commentSubmit)
+
+
+
+  commmentForm.addEventListener("submit", (event) => {
+        event.preventDefault()
+        newCommentText = event.target.commentInput.value
+        commentSubmit = event.target.CommentSubmit.value
+        let commentLi = document.createElement("li")        
+          commentLi.innerText = newCommentText
+        commentList.append(commentLi)
+
+        // newIngredientName = newIngredientForm.name.value
+        // let ingredientLi = document.createElement("li")
+        //       ingredientLi.innerText = newIngredientName
+        //   ingredientsUl.append(ingredientLi)
+      })
+    }
+//   
+// clickfunction.addeventListener("click", (event)=>{
+//   if screen value === size value
+//     return zoom 
+//   else {
+//      create/appened post form at x/y location
+//     }
+//    else if x/y === post location
+//    bring post to front 
+      // }
+
+// 
+//  
+//      post form appends to clickfunction location
+// 
+// 
+//      find x/y coordinates
+// 
+// 
+// 
+
+        // fetch("http://localhost:3000/Posts/", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     Comments: [
+        //       textComment
+        //     ]
+        //   }),
+        // })
+        //   .then((res) => res.json())
+        //   .then((newComment) => {
+        //     console.log(newComment)
+        //     postToDom(newComment);
+        //     event.target.reset();
+          // })
+      
+
+
+// })
+
+
+
+>>>>>>> 06b1e1fee278df3cf5939d7bd90e56004f45ce01
 
 
 //FC add eventListener for every like 
@@ -160,6 +248,7 @@ postForm.addEventListener("submit", function (event) {
     })
 })
 
+<<<<<<< HEAD
 
 // commentForm = document.createElement("form")
 // commentForm.id = "comment-form"
@@ -197,3 +286,5 @@ postForm.addEventListener("submit", function (event) {
 // })
 // })
 // >>>>>>> 5080104225596bc441fc687994ccddfbb84fb548
+=======
+>>>>>>> 06b1e1fee278df3cf5939d7bd90e56004f45ce01
