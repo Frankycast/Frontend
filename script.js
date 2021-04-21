@@ -1,146 +1,202 @@
 
-postContainer = document.createElement("div")
-postTitle = document.createElement("h2")
-postForm = document.createElement("form")
-comment = document.createElement("li")
-
-likeButton = document.createElement("button")
-disLike = document.createElement("button")
-
-//     "id": 1,
-//     "Title": "header",
-//     "Post" : "p",
-//     "image": "<a> http://www.pngmart.com/files/3/Toy-Story-Woody-PNG-Photos.png",
-//     "likes": 8,  <btn>
-//     "Dislikes": 9,  <btn.
-//     "Catagory" : "cats", <id>
-//     "Comments": [        //forEach   <li>
-//       "bullshit"
-//     ]
-
-createPost.addEventListener("click", (event) => {
+let postForm = document.querySelector("#new-post");
+let body = document.querySelector("body");
+let posts = [];
 
 
-    var mainForm = document.getElementById("mainForm"),
-        textBox = document.createElement("input");
+// Get information
+fetch("http://localhost:3000/Posts")
+  .then((res) => res.json())
+  .then((postsArr) => {
+    postsArr.forEach(function (postObj) {
+      posts = postsArr;
+      postToDom(postObj);
+    });
+  });
 
-    textBox.id="tmpTextBox";
-    textBox.type="text";
+function postToDom(postObj) {
+  //creating elements in Dom
 
-    document.getElementById("clickme").onclick = function () {
-         mainForm.appendChild(textBox);
-    }
+  // added a div
+  let postContainer = document.createElement("div");
+  postContainer.className = "postCont";
+  body.append(postContainer);
+ 
+  // added a "h2" for Title
+  let postTitle = document.createElement("h2");
+  postTitle.innerText = postObj.name;
+  postContainer.append(postTitle);
 
-    document.getElementById("submitme").onclick = function () {
-        mainForm.removeChild(textBox);
-    }
+  // added a Img
+  let postImg = document.createElement("img");
+  postImg.src = postObj.image;
+  postContainer.append(postImg);
+  postImg.className = "postImg";
 
-   mainForm.append
+  // added a "h3" for post
+  let post = document.createElement("h3");
+  post.innerText = postObj.Post;
+  postContainer.append(post);
+
+  // added a "ul" for comments
+  let commentList = document.createElement("ul");
+  postContainer.append(commentList);
+
+  // added a 'button' for the like button
+    let likeButton = document.createElement('button')
+  likeButton.innerText = "👍"
+  likeButton.className = 'likeButton'
+
+  // added a 'button' for the dislike button
+  let dislikeButton = document.createElement('button')
+  dislikeButton.innerText = "👎"
+  dislikeButton.className = "dislikeButton"
+  
+  // added a 'span' for the ammount of likes
+    let likeNumber = document.createElement('span')
+    likeNumber.innerText = postObj.likes
+    likeNumber.className = "ammountLikes"
+
+    // added a 'span' for the ammount of dislikes
+    let dislikeNumber = document.createElement('span')
+    dislikeNumber.innerText = postObj.Dislikes
+    dislikeNumber.className = "ammountOfDislike"
+
+  likeButton.append(likeNumber)
+  dislikeButton.append(dislikeNumber)
+
+  postContainer.append(likeButton, dislikeButton)
+  //added delete button
+  let deletePost = document.createElement(`button`)
+  deletePost.innerText = "Delete Post"
+  deletePost.className = "delete"
+  
+  postContainer.append(deletePost)
+
+  
+
+//add eventLisener for every delete button
+deletePost.addEventListener('click', (f) =>{
+    // console.log(`http://localhost:3000/Posts/${postObj.id}`)
+    fetch(`http://localhost:3000/Posts/${postObj.id}`,{
+        method:"DELETE"  
+    })
+    .then(res => res.json)
+    .then((deleted) => {
+    postContainer.remove()
+    })
 })
 
 
-
-
-    
-
-// let postForm = document.createElement("form");
-// postForm.setAttribute('method',"post");
-// postForm.setAttribute('action',"submit.php");
-
-// var i = document.createElement("input"); //input element, text
-// i.setAttribute('type',"text");
-// i.setAttribute('name',"username");
-
-// var s = document.createElement("input"); //input element, Submit button
-// s.setAttribute('type',"submit");
-// s.setAttribute('value',"Submit");
-
-// postForm.appendChild(i);
-// postForm.appendChild(s);
-
-//and some more input elements here
-//and dont forget to add a submit button
-
-// document.getElementsByTagName('body')[0].appendChild(postForm);
-
-
-// MOUSE LOCATION 
-
-function printMousePos() {
-    var cursorX;
-    var cursorY;
-    document.onmousemove = function(e){
-    cursorX = e.pageX;
-    cursorY = e.pageY;
-document.getElementById('test').innerHTML = "x: " + cursorX + ", y: " + cursorY;
+//added eventListener for every like 
+likeButton.addEventListener(`click`, (e) =>{
+// console.log(`http://localhost:3000/Posts/${postObj.id}`)
+fetch(`http://localhost:3000/Posts/${postObj.id}`,{
+method:"PATCH",
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify({
+  likes: postObj.likes + 1
+   })
+ })
+.then(res => res.json())
+.then((upDatedLikes) => {
+    likeNumber.innerText = `${upDatedLikes.likes}`
+})
+})
+//added an eventListener for every Dislike button 
+dislikeButton.addEventListener(`click`, (b) => {
+console.log(`http://localhost:3000/Posts/${postObj.id}`)
+fetch(`http://localhost:3000/Posts/${postObj.id}`, {
+    method:"PATCH",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+        Dislikes: postObj.Dislikes - 1
+    })    
+})
+.then(res => res.json())
+.then((upDatedDislikes) => {
+    dislikeNumber.innerText = `${upDatedDislikes.Dislikes}`
+})
+})
+// });
 }
-}
+postForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  // console.log(event.target.titlePost.value);
+  // console.log(event.target.postImage.value);
+  // console.log(event.target.postText.value);
 
-toyForm.addEventListener("submit", (e) => {
-    e.preventDefault()
-    // event -> form -> input -> value
-    // form -> input -> value
-    // input -> value
-
-    
-    let nameVar = e.target.name.value
-    let imageVar = e.target.image.value
-  
-    fetch(`http://localhost:3000/toys`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: nameVar,
-        image: imageVar,
-        likes: 100
-      })
+  let disLikeCount = document.querySelector('span.ammountOfDislike')
+  let likeCount = document.querySelector('span.ammountLikes')
+  let whatUserTitles = event.target.titlePost.value;
+  let imgLink = event.target.postImage.value;
+  let postText = event.target.postText.value;
+  likeVar = likeCount
+ dislikeVar = disLikeCount
+//  debugger;
+  fetch("http://localhost:3000/Posts/", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      name: whatUserTitles,
+      Post: postText,
+      image: imgLink,
+      likes: 0,
+      Dislikes: 0,
+      Comments: []
+    }),
+  })
+    .then((res) => res.json())
+    .then((newlyCreatedPost) => {
+      console.log(newlyCreatedPost)
+      postToDom(newlyCreatedPost);
+      event.target.reset();
     })
-      .then(res => res.json())
-      .then((newToy) => {
-        // RENDER DOM
-        renderToyCard(newToy)
-        e.target.reset()
-      })
-  
-  
+})
+
+listDeleteButton.addEventListener("click", function(evt){
+//   handleDeleteFetch(list, user)
+// })
+
+// function handleDeleteFetch(list, user){
+
+  // DELETE THE LIST IN THE BACKEND
+ fetch(`http://localhost:3000/lists/${list.id}`, {
+     method: "DELETE"
+ })
+  .then(res => res.json())
+  .then(emptyObj => {
+      // UPDATE THE USER OBJECT IN MEMORY
+          // REACT THING
+          let copyOfLists = user.lists.filter(listObj => {
+              return list.id !== listObj.id
+          })
+          user.lists = copyOfLists
+
+      // UPDATE THE DOM
+          setLists(user)
   })
 
 
 
-// const dynamicForm = {
-//     commentFormText=document.createElement('form'),
-//     commentFormText.name='myForm',
-//     commentFormText.method='POST',
-//     commentFormText.action='',
-    
-//     commentInput = document.createElement("input"),
-//     commentInput.type='TEXT',
-//     commentInput.name='myInput',
-//     commentInput.value='Values of my Input',
-//     commentFormText.appendChild(commentInput),
-    
-//     commentInput=document.createElement('INPUT'),
-//     commentInput.type='HIDDEN',
-//     commentInput.name='hidden1',
-//     commentInput.value='Values of my hidden1',
-//     commentFormText.appendChild(commentInput),
-//     document.body.appendChild(commentFormText),
-//     commentFormText.submit(),
-// }
+}
 
-    // function myFunction() {
-    //     let x = document.createElement("FORM");
-    //     x.setAttribute("id", "myForm");
-    //     document.body.appendChild(x);
-      
-    //     let y = document.createElement("INPUT");
-    //     y.setAttribute("type", "text");
-    //     y.setAttribute("value", "Donald");
-    //     document.getElementById("myForm").appendChild(y);
-    //   }
+// Add an item to an array attribute
 
+// fetch("/lists/:id", {
+//     method: "PATCH",
+//     headers: {
+
+//     },
+//     body: JSON.stringify({
+      // CREATE
+//         items: [...list.items, "new item"],
+      // DELETE
+//         items: list.items.filter(itemStr => itemToDelete !== itemStr)
+//     })
+// })
 
 
 

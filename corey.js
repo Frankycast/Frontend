@@ -17,81 +17,95 @@ fetch("http://localhost:3000/posts")
 // HELPER FUNCTION
 function postToDom(postObj) {
   let postContainer = document.createElement("div");
-    postContainer.className = "postCont";
-    body.append(postContainer);
+      postContainer.className = "postCont";
+      body.append(postContainer);
 // POST TITLE
   let postTitle = document.createElement("h2");
-    postTitle.innerText = postObj.name;
-    postContainer.append(postTitle);
+      postTitle.innerText = postObj.name;
+      postContainer.append(postTitle);
 // POST IMAGE
   let postImg = document.createElement("img");
-    postImg.src = postObj.image;
-    postContainer.append(postImg);
-    postImg.className = "postImg";
+      postImg.src = postObj.image;
+      postContainer.append(postImg);
+      postImg.className = "postImg";
 // POST TEXT
   let post = document.createElement("h3");
-    post.innerText = postObj.Post;
-    postContainer.append(post);
+      post.innerText = postObj.post;
+      postContainer.append(post);
 
 //  COMMENT FORM
-   let commentForm = document.createElement("form")
-   commentForm.id = "commentForm"
-   commentForm.type = "text"
-   postContainer.append(commentForm)
-   
+  let commentForm = document.createElement("form")
+      commentForm.id = "commentForm"
+      commentForm.type = "text"
+      postContainer.append(commentForm)
+      
  let commentInput = document.createElement("input")
-   commentInput.name = "commentInput"
-   commentInput.type = "text"
-   commentInput.placeholder = "Leave a comment"
-   commentForm.appendChild(commentInput)
+      commentInput.name = "commentInput"
+      commentInput.type = "text"
+      commentInput.placeholder = "Leave a comment"
+      commentForm.appendChild(commentInput)
    
  let commentSubmit = document.createElement("button")
-   commentSubmit.id = "commentSubmit"
-   commentSubmit.type = "submit"
-   commentSubmit.innerText = "Submit"
-   commentForm.appendChild(commentSubmit)
+      commentSubmit.id = "commentSubmit"
+      commentSubmit.type = "submit"
+      commentSubmit.innerText = "Submit"
+      commentForm.appendChild(commentSubmit)
 
-// TURNS ARRAY OF COMMENTS INTO OBJECTS & APPENDS TO PAGE
-  postObj.Comments.forEach((comments) => {
-      // console.log(comments);
-      let commentList = document.createElement("ul");
+  let commentList = document.createElement("ul");
       commentList.className = "postUl"
       postContainer.append(commentList);
-    
+
+
+// TURNS ARRAY OF COMMENTS INTO OBJECTS & APPENDS TO PAGE
+postObj.comments.forEach((comments) => {
+      // console.log(comments);
+      
       let commentLi = document.createElement("li");
       commentLi.innerText = comments;
       commentList.append(commentLi);
 
-// COMMENT FORM EVENT LISTENER   
- commentForm.addEventListener("submit", (event) => {
+})
+
+      // COMMENT FORM EVENT LISTENER   
+ 
+commentForm.addEventListener("submit", (event) => {
       event.preventDefault()
-      console.log(commentInput.value)
+      // console.log(commentInput.value)
 
-  let newComment = commentInput.value 
-
-      fetch("http://localhost:3000/Posts/", {
+  let newComment = commentInput.value
+      // console.log(newComment)
+      fetch(`http://localhost:3000/posts/${postObj.id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        Comments: [ ...postObj.comments, newCommment ]
+        comments: [ ...postObj.comments, newComment ]
       }),
     })
       .then((res) => res.json())
       .then((newCommentList) => {
-        // let newComment = commentInput.value 
-    
-        let commentLi = document.createElement("li")
-            commentLi.innerText = newComment
-            commentList.append(commentLi)
-        
+        commentList.innerText = " "  
+        // update the object in memory
+        // console.log(postObj)
+        // render the comment to the DOM
         console.log(newCommentList)
-        postToDom(newCommentList);
-        event.target.reset();
-      })
-})
-    // // COMMENT FORM EVENT LISTENER   
+      
+        newCommentList.comments.forEach((newCommentsObj) => {
+        console.log(newCommentsObj)          
+      let commentLi = document.createElement("li");
+          commentLi.innerText = newCommentsObj
+          commentList.append(commentLi)
+    
+          event.target.reset()
+    })
+  })
+
+}
+)
+}
+
+// // COMMENT FORM EVENT LISTENER   
     // commentForm.addEventListener("submit", (event) => {
     //     event.preventDefault()
     //     console.log(commentInput.value)
@@ -104,14 +118,6 @@ function postToDom(postObj) {
     // })
 
 
-  })
-
- 
-    }
-
-// takes in comment and outputs new comment array
-
-
  
 
 
@@ -122,8 +128,8 @@ function postToDom(postObj) {
     //   console.log(commentInput.value)
     // })
 
-    // POST FORM
-    postForm.addEventListener("submit", function (event) {
+// POST FORM
+  postForm.addEventListener("submit", function (event) {
       event.preventDefault();
       // console.log(event.target.titlePost.value);
       // console.log(event.target.postImage.value);
@@ -154,6 +160,10 @@ function postToDom(postObj) {
         })
     })
 
+
+
+
+
 //   
 // clickfunction.addeventListener("click", (event)=>{
 //   if screen value === size value
@@ -175,27 +185,7 @@ function postToDom(postObj) {
 // 
 // 
 
-        // fetch("http://localhost:3000/Posts/", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-type": "application/json",
-        //   },
-        //   body: JSON.stringify({
-        //     Comments: [
-        //       textComment
-        //     ]
-        //   }),
-        // })
-        //   .then((res) => res.json())
-        //   .then((newComment) => {
-        //     console.log(newComment)
-        //     postToDom(newComment);
-        //     event.target.reset();
-          // })
       
-
-
-// })
 
 
 
