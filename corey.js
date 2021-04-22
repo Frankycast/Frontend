@@ -9,7 +9,6 @@ fetch("http://localhost:3000/posts")
   .then((res) => res.json())
   .then((postsArr) => {
     postsArr.forEach(function (postObj) {
-      posts = postsArr;
       postToDom(postObj);
     });
   });
@@ -19,6 +18,8 @@ function postToDom(postObj) {
   let postContainer = document.createElement("div");
       postContainer.className = "postCont";
       body.append(postContainer);
+      postContainer.dataset.id = postObj.id
+
 // POST TITLE
   let postTitle = document.createElement("h2");
       postTitle.innerText = postObj.name;
@@ -33,6 +34,10 @@ function postToDom(postObj) {
       post.innerText = postObj.post;
       postContainer.append(post);
 
+// COMMENT LIST
+  let commentList = document.createElement("ul");
+      commentList.className = "postUl"
+      postContainer.append(commentList)
 //  COMMENT FORM
   let commentForm = document.createElement("form")
       commentForm.id = "commentForm"
@@ -42,38 +47,60 @@ function postToDom(postObj) {
  let commentInput = document.createElement("input")
       commentInput.name = "commentInput"
       commentInput.type = "text"
+      commentInput.autocomplete =         "off"
       commentInput.placeholder = "Leave a comment"
-      commentForm.appendChild(commentInput)
+      commentForm.append(commentInput)
    
  let commentSubmit = document.createElement("button")
       commentSubmit.id = "commentSubmit"
       commentSubmit.type = "submit"
       commentSubmit.innerText = "Submit"
-      commentForm.appendChild(commentSubmit)
+      commentForm.append(commentSubmit)
 
-  let commentList = document.createElement("ul");
-      commentList.className = "postUl"
-      postContainer.append(commentList);
+// LIKE BUTTON
+  let likeButton = document.createElement('button')
+      likeButton.innerText = "👍"
+      likeButton.className = 'likeButton'
+// LIKE NUMBER
+  let likeNumber = document.createElement('span')
+      likeNumber.innerText = postObj.likes
+      likeNumber.className = "ammountLikes"
+      likeButton.append(likeNumber)
+// DISLIKE BUTTON
+  let dislikeButton = document.createElement('button')
+      dislikeButton.innerText = "👎"
+      dislikeButton.className = "dislikeButton"
+// DISLIKE NUMBER
+  let dislikeNumber = document.createElement('span')
+      dislikeNumber.innerText = postObj.Dislikes
+      dislikeNumber.className = "ammountOfDislike"
+      dislikeButton.append(dislikeNumber)
+
+  postContainer.append(likeButton, dislikeButton)
+//DELETE POST BUTTON
+  let deletePostButton = document.createElement(`button`)
+      deletePostButton.innerText = "Delete Post"
+      deletePostButton.className = "delete"
+ 
+  postContainer.append(deletePostButton)
 
 
 // TURNS ARRAY OF COMMENTS INTO OBJECTS & APPENDS TO PAGE
 postObj.comments.forEach((comments) => {
       // console.log(comments);
       
-      let commentLi = document.createElement("li");
-      commentLi.innerText = comments;
-      commentList.append(commentLi);
+  let commentLi = document.createElement("li")
+      commentLi.innerText = comments
+      commentList.append(commentLi)
+    })
 
-})
-
-      // COMMENT FORM EVENT LISTENER   
- 
+// COMMENT FORM EVENT LISTENER   
 commentForm.addEventListener("submit", (event) => {
       event.preventDefault()
       // console.log(commentInput.value)
-
+      
   let newComment = commentInput.value
-      // console.log(newComment)
+      console.log(newComment)
       fetch(`http://localhost:3000/posts/${postObj.id}`, {
       method: "PATCH",
       headers: {
@@ -82,51 +109,73 @@ commentForm.addEventListener("submit", (event) => {
       body: JSON.stringify({
         comments: [ ...postObj.comments, newComment ]
       }),
-    })
+      })
       .then((res) => res.json())
-      .then((newCommentList) => {
+      .then((updatedPost) => {
         commentList.innerText = " "  
         // update the object in memory
         // console.log(postObj)
         // render the comment to the DOM
-        console.log(newCommentList)
-      
-        newCommentList.comments.forEach((newCommentsObj) => {
-        console.log(newCommentsObj)          
+        // console.log(updatedPost)
+
+      updatedPost.comments.forEach((newCommentsObj) => {
+      console.log(newCommentsObj)    
+            
       let commentLi = document.createElement("li");
           commentLi.innerText = newCommentsObj
           commentList.append(commentLi)
-    
+          
+                   
           event.target.reset()
+      })  
     })
   })
 
+// LIKE BUTTON EVENT LISTENER 
+likeButton.addEventListener(`click`, (e) =>{
+  fetch(`http://localhost:3000/posts/${postObj.id}`,{
+  method:"PATCH",
+  headers:{"Content-Type":"application/json"},
+  body: JSON.stringify({
+    likes: postObj.likes + 1
+     })
+   })
+  .then(res => res.json())
+  .then((upDatedLikes) => {
+    
+      likeNumber.innerText = `${upDatedLikes.likes}`
+  })
+  })
+
+  // DISLIKE BUTTON EVENT LISTENER
+  dislikeButton.addEventListener(`click`, (b) => {
+  console.log(`http://localhost:3000/posts/${postObj.id}`)
+  fetch(`http://localhost:3000/posts/${postObj.id}`, {
+      method:"PATCH",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+          Dislikes: postObj.Dislikes - 1
+      })    
+  })
+  .then(res => res.json())
+  .then((upDatedDislikes) => {
+      dislikeNumber.innerText = `${upDatedDislikes.Dislikes}`
+  })
+  })
+
+  // DELETE POST BUTTON
+  deletePostButton.addEventListener("click", function(event){
+        // DELETE THE LIST IN THE BACKEND
+        console.log(deletePostButton)
+       fetch(`http://localhost:3000/posts/${postObj.id}`, {
+           method: "DELETE"
+       })
+        .then(res => res.json())
+        .then(emptyObj => {
+            postContainer.remove()
+        })
+      })
 }
-)
-}
-
-// // COMMENT FORM EVENT LISTENER   
-    // commentForm.addEventListener("submit", (event) => {
-    //     event.preventDefault()
-    //     console.log(commentInput.value)
-    //     let newComment = commentInput.value 
-    //     // let newComment = commentForm.commentInput.value
-    //     let commentLi = document.createElement("li")
-    //       commentLi.innerText = newComment
-    //     commentList.append(commentLi)
-      
-    // })
-
-
- 
-
-
-
-
-    // commentForm.addEventListener("submit", (event) => {
-    //   event.preventDefault()
-    //   console.log(commentInput.value)
-    // })
 
 // POST FORM
   postForm.addEventListener("submit", function (event) {
@@ -134,20 +183,25 @@ commentForm.addEventListener("submit", (event) => {
       // console.log(event.target.titlePost.value);
       // console.log(event.target.postImage.value);
       // console.log(event.target.postText.value);
-    
+      let disLikeCount = document.querySelector('span.ammountOfDislike')
+      let likeCount = document.querySelector('span.ammountLikes')
       let whatUserTitles = event.target.titlePost.value;
       let imgLink = event.target.postImage.value;
       let postText = event.target.postText.value;
-    
+      likeVar = likeCount
+      dislikeVar = disLikeCount
       fetch("http://localhost:3000/posts/", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
+          // id: x,
           name: whatUserTitles,
           post: postText,
           image: imgLink,
+          likes: 0,
+          dislikes: 0,
           comments: []
         }),
       })
@@ -161,8 +215,7 @@ commentForm.addEventListener("submit", (event) => {
     })
 
 
-
-
+    
 
 //   
 // clickfunction.addeventListener("click", (event)=>{
