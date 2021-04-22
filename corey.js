@@ -47,7 +47,7 @@ function postToDom(postObj) {
  let commentInput = document.createElement("input")
       commentInput.name = "commentInput"
       commentInput.type = "text"
-      commentInput.autocomplete =         "off"
+      commentInput.autocomplete = "off"
       commentInput.placeholder = "Leave a comment"
       commentForm.append(commentInput)
    
@@ -72,7 +72,7 @@ function postToDom(postObj) {
       dislikeButton.className = "dislikeButton"
 // DISLIKE NUMBER
   let dislikeNumber = document.createElement('span')
-      dislikeNumber.innerText = postObj.Dislikes
+      dislikeNumber.innerText = postObj.dislikes
       dislikeNumber.className = "ammountOfDislike"
       dislikeButton.append(dislikeNumber)
 
@@ -118,48 +118,48 @@ commentForm.addEventListener("submit", (event) => {
         // render the comment to the DOM
         // console.log(updatedPost)
 
-      updatedPost.comments.forEach((newCommentsObj) => {
-      console.log(newCommentsObj)    
+      updatedPost.comments.forEach((newComments) => {
+      console.log(newComments)    
             
       let commentLi = document.createElement("li");
-          commentLi.innerText = newCommentsObj
+          commentLi.innerText = newComments
           commentList.append(commentLi)
           
-                   
           event.target.reset()
       })  
     })
   })
 
 // LIKE BUTTON EVENT LISTENER 
-likeButton.addEventListener(`click`, (e) =>{
-  fetch(`http://localhost:3000/posts/${postObj.id}`,{
-  method:"PATCH",
-  headers:{"Content-Type":"application/json"},
-  body: JSON.stringify({
-    likes: postObj.likes + 1
-     })
-   })
-  .then(res => res.json())
-  .then((upDatedLikes) => {
-    
-      likeNumber.innerText = `${upDatedLikes.likes}`
-  })
-  })
+  likeButton.addEventListener(`click`, (e) =>{
+        fetch(`http://localhost:3000/posts/${postObj.id}`,{
+        method:"PATCH",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          likes: postObj.likes + 1
+          })
+        })
+        .then(res => res.json())
+        .then((upDatedLikes) => {
+          
+            likeNumber.innerText = `${upDatedLikes.likes}`
+        })
+        })
 
   // DISLIKE BUTTON EVENT LISTENER
   dislikeButton.addEventListener(`click`, (b) => {
-  console.log(`http://localhost:3000/posts/${postObj.id}`)
+  // console.log(`http://localhost:3000/posts/${postObj.id}`)
   fetch(`http://localhost:3000/posts/${postObj.id}`, {
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
-          Dislikes: postObj.Dislikes - 1
+          dislikes: postObj.dislikes - 1
       })    
-  })
+    })
   .then(res => res.json())
   .then((upDatedDislikes) => {
-      dislikeNumber.innerText = `${upDatedDislikes.Dislikes}`
+
+      dislikeNumber.innerText = `${upDatedDislikes.dislikes}`
   })
   })
 
@@ -183,20 +183,17 @@ likeButton.addEventListener(`click`, (e) =>{
       // console.log(event.target.titlePost.value);
       // console.log(event.target.postImage.value);
       // console.log(event.target.postText.value);
-      let disLikeCount = document.querySelector('span.ammountOfDislike')
-      let likeCount = document.querySelector('span.ammountLikes')
+      
       let whatUserTitles = event.target.titlePost.value;
       let imgLink = event.target.postImage.value;
       let postText = event.target.postText.value;
-      likeVar = likeCount
-      dislikeVar = disLikeCount
+      
       fetch("http://localhost:3000/posts/", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          // id: x,
           name: whatUserTitles,
           post: postText,
           image: imgLink,
@@ -239,7 +236,60 @@ likeButton.addEventListener(`click`, (e) =>{
 // 
 
       
+// newPostForm = document.createElement("form")
+//   newPostForm.id = "newPostForm"  
+//   newPostForm.type = "text"
+//     body.append(newForm)
+    
+// let commentInput = document.createElement("input")
+//     commentInput.name = "commentInput"
+//     commentInput.type = "text"
+//     commentInput.autocomplete = "off"
+//     commentInput.placeholder = "Leave a comment"
+//     commentForm.append(commentInput)
+ 
+// let commentSubmit = document.createElement("button")
+//     commentSubmit.id = "commentSubmit"
+//     commentSubmit.type = "submit"
+//     commentSubmit.innerText = "Submit"
+//     commentForm.append(commentSubmit)
 
+
+// <body>
+//   <form id="new-post" >
+//       <input
+//           type="text"
+//           name="titlePost"
+//           value=""
+//           placeholder="Enter Post title"
+//           class="input-text"
+//           autocomplete="off" 
+//       />
+//       <br/>
+//       <input
+//           type="text"
+//           name="postImage"
+//           value=""
+//           placeholder="Enter Post Image URL"
+//           class="input-text"
+//           autocomplete="off" 
+//       />
+//       <br/>
+//       <input
+//           type="text"
+//           name="postText"
+//           value=""
+//           placeholder="Enter Your Post"
+//           class="input-text"
+//           autocomplete="off" 
+//       />
+//       <br/>
+//       <button 
+//           id="new-post-submit" 
+//           type="submit" 
+//           class="ui primary button">
+//           Submit Post
+//       </button>
 
 
 
