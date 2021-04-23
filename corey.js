@@ -1,22 +1,80 @@
-// let likeButton = document.createElement("button")
-// let disLike = document.createElement("button")
+
+// NAV ALERT ON LOAD
+window.alert("use CMD + F or CTRL + F to navigate")
+
+// ZOOM ON LOAD
+document.body.style.zoom = "50%"
+
+
+ //  CLICK APPEND FORM & X/Y COORDINATES
+          let body = document.querySelector("body")
+          
+            body.addEventListener('click', function (x) {
+            body.append(newPostForm)
+            // newPostForm.append(postTitleInput)
+            // newPostForm.append(imageInput)
+            // newPostForm.append(postText)
+            // newPostForm.append(createPost)  
+            // modalForm.append(newPostForm)
+            newPostForm.append(postTitleInput, imageInput, postText, createPost)
+          });
+
+          let mouse = {
+            position : {x:0, y:0},
+            down : false,
+            downedPos :{x:0, y:0},
+            upedPos :{x:0, y:0},
+            }
+            mouse.getPosition = function(element, event) {
+            let rect = element.getBoundingClientRect(), 
+            root = document.documentElement;
+            
+            this.position.x = event.clientX - rect.left - root.scrollLeft
+            this.position.y = event.clientY - rect.top - root.scrollTop
+            return this.position
+            // console.log(this.position)
+            }
+
+
+          $('#element').append('<div id="close">Close</div>');
+          
+          $(document).on('click', '#close', function() {
+                
+          });
+
+          body.addEventListener('mousedown', function(e){
+              mouse.down = true;
+              mouse.downedPos = mouse.getPosition(this, e);
+            console.log(mouse.downedPos)
+          });
+
+          body.addEventListener('mousemove', function(e){
+              ms = mouse.getPosition(this, e);
+              if(mouse.down){
+                  mouse.upedPos = ms;
+              }
+          });
+
+
+
 
 let postForm = document.querySelector("#new-post");
-let body = document.querySelector("body");
-let posts = [];
+// let posts = {};
 
 fetch("http://localhost:3000/posts")
   .then((res) => res.json())
   .then((postsArr) => {
     postsArr.forEach(function (postObj) {
+        // posts = postsArr
       postToDom(postObj);
     });
   });
 
+
 // HELPER FUNCTION
 function postToDom(postObj) {
   let postContainer = document.createElement("div");
-      postContainer.className = "postCont";
+      postContainer.className = "draggable";
       body.append(postContainer);
       postContainer.dataset.id = postObj.id
 
@@ -51,11 +109,11 @@ function postToDom(postObj) {
       commentInput.placeholder = "Leave a comment"
       commentForm.append(commentInput)
    
- let commentSubmit = document.createElement("button")
-      commentSubmit.id = "commentSubmit"
-      commentSubmit.type = "submit"
-      commentSubmit.innerText = "Submit"
-      commentForm.append(commentSubmit)
+ let createPost = document.createElement("button")
+      createPost.id = "createPost"
+      createPost.type = "submit"
+      createPost.innerText = "Submit"
+      commentForm.append(createPost)
 
 // LIKE BUTTON
   let likeButton = document.createElement('button')
@@ -87,7 +145,6 @@ function postToDom(postObj) {
 
 // TURNS ARRAY OF COMMENTS INTO OBJECTS & APPENDS TO PAGE
 postObj.comments.forEach((comments) => {
-      // console.log(comments);
       
   let commentLi = document.createElement("li")
       commentLi.innerText = comments
@@ -97,10 +154,8 @@ postObj.comments.forEach((comments) => {
 // COMMENT FORM EVENT LISTENER   
 commentForm.addEventListener("submit", (event) => {
       event.preventDefault()
-      // console.log(commentInput.value)
       
   let newComment = commentInput.value
-      console.log(newComment)
       fetch(`http://localhost:3000/posts/${postObj.id}`, {
       method: "PATCH",
       headers: {
@@ -113,18 +168,14 @@ commentForm.addEventListener("submit", (event) => {
       .then((res) => res.json())
       .then((updatedPost) => {
         commentList.innerText = " "  
-        // update the object in memory
-        // console.log(postObj)
-        // render the comment to the DOM
-        // console.log(updatedPost)
 
-      updatedPost.comments.forEach((newComments) => {
-      console.log(newComments)    
-            
+      updatedPost.comments.forEach((newComments) => { 
+                   
       let commentLi = document.createElement("li");
           commentLi.innerText = newComments
           commentList.append(commentLi)
-          
+        //   posts.comments = updatedPost.comments
+          postObj.comments = updatedPost.comments
           event.target.reset()
       })  
     })
@@ -148,7 +199,6 @@ commentForm.addEventListener("submit", (event) => {
 
   // DISLIKE BUTTON EVENT LISTENER
   dislikeButton.addEventListener(`click`, (b) => {
-  // console.log(`http://localhost:3000/posts/${postObj.id}`)
   fetch(`http://localhost:3000/posts/${postObj.id}`, {
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
@@ -180,10 +230,7 @@ commentForm.addEventListener("submit", (event) => {
 // POST FORM
   postForm.addEventListener("submit", function (event) {
       event.preventDefault();
-      // console.log(event.target.titlePost.value);
-      // console.log(event.target.postImage.value);
-      // console.log(event.target.postText.value);
-      
+        
       let whatUserTitles = event.target.titlePost.value;
       let imgLink = event.target.postImage.value;
       let postText = event.target.postText.value;
@@ -212,87 +259,62 @@ commentForm.addEventListener("submit", (event) => {
     })
 
 
-    
 
-//   
-// clickfunction.addeventListener("click", (event)=>{
-//   if screen value === size value
-//     return zoom 
-//   else {
-//      create/appened post form at x/y location
-//     }
-//    else if x/y === post location
-//    bring post to front 
-      // }
 
-// 
-//  
-//      post form appends to clickfunction location
-// 
-// 
-//      find x/y coordinates
-// 
-// 
-// 
 
+// POST FORM IN JS
       
-// newPostForm = document.createElement("form")
-//   newPostForm.id = "newPostForm"  
-//   newPostForm.type = "text"
-//     body.append(newForm)
+let newPostForm = document.createElement("form")
+    newPostForm.id = "new-post"  
+    newPostForm.type = "text"
+      
+let postTitleInput = document.createElement("input")
+    postTitleInput.name = "titlePost"
+    postTitleInput.class = "input-text"
+    postTitleInput.type = "text"
+    postTitleInput.autocomplete = "off"
+    postTitleInput.placeholder = "Enter Post Title"
     
-// let commentInput = document.createElement("input")
-//     commentInput.name = "commentInput"
-//     commentInput.type = "text"
-//     commentInput.autocomplete = "off"
-//     commentInput.placeholder = "Leave a comment"
-//     commentForm.append(commentInput)
- 
-// let commentSubmit = document.createElement("button")
-//     commentSubmit.id = "commentSubmit"
-//     commentSubmit.type = "submit"
-//     commentSubmit.innerText = "Submit"
-//     commentForm.append(commentSubmit)
+let imageInput = document.createElement("input")
+    imageInput.name = "postImage"
+    imageInput.type = "text"
+    imageInput.autocomplete = "off"
+    imageInput.placeholder = "Enter an Image URL"
+    
+let postText = document.createElement("input")
+    postText.name = "postText"
+    postText.type = "text"
+    postText.autocomplete = "off"
+    postText.placeholder = "Leave a comment"
 
+let createPost = document.createElement("button")
+    createPost.id = "new-post-submit"
+    createPost.type = "submit"
+    createPost.innerText = "Submit Post"
+    
+// Form Modal
+let modalForm = document.createElement("div")
+    modalForm.id = "myModal"
+    modalForm.append(newPostForm)
+    newPostForm.append(postTitleInput, imageInput, postText, createPost)
 
-// <body>
-//   <form id="new-post" >
-//       <input
-//           type="text"
-//           name="titlePost"
-//           value=""
-//           placeholder="Enter Post title"
-//           class="input-text"
-//           autocomplete="off" 
-//       />
-//       <br/>
-//       <input
-//           type="text"
-//           name="postImage"
-//           value=""
-//           placeholder="Enter Post Image URL"
-//           class="input-text"
-//           autocomplete="off" 
-//       />
-//       <br/>
-//       <input
-//           type="text"
-//           name="postText"
-//           value=""
-//           placeholder="Enter Your Post"
-//           class="input-text"
-//           autocomplete="off" 
-//       />
-//       <br/>
-//       <button 
-//           id="new-post-submit" 
-//           type="submit" 
-//           class="ui primary button">
-//           Submit Post
-//       </button>
+// When the user clicks on the button, open the modalForm
+body.onclick = function() {
+  modalForm.style.display = "block";
+}
+
+// When the user clicks anywhere outside of the modalForm, close it
+window.onclick = function(event) {
+  if (event.target == modalForm) {
+    modalForm.style.display = "none";
+  }
+}
 
 
 
+
+
+   
 
 
 

@@ -1,26 +1,50 @@
-#body {
+body, html {
   height: 1000rem;
   width: 1000rem;
-
 }
+
+
+
+
+/* body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+} */
 
 * {
 font-family: futura;
 }
 
-.postCont {
+/* div.figure img,
+div.figure div.caption {
+    width: 100%;
+} */
+.draggable {
     text-align: left;
     border-radius: 25px;
     background-color:white;
     border: rgb(0, 0, 0) solid 1px;
     padding: 1rem;
-    width: 15rem;
+    width: fit-content;
     height: auto;
     display: block;
     margin: 1rem 2rem;
     box-shadow: 3px 4px black
     
+    /* word-wrap: break-word */
+    
   }
+  .draggable {
+    display: table;
+    width: 1px;
+  }
+
+/* h2 {
+  width: fit-content;
+} */
 
 ul {
     list-style-type: none;
@@ -28,7 +52,9 @@ ul {
 
  li {
   text-align: left;
-  
+  padding: .5rem;
+  /* align-; */
+
   border-radius: 25px;
   background-color:white;
   border: rgb(0, 0, 0) solid 1px;
@@ -40,3 +66,7 @@ ul {
     height: 12rem;
     width: auto;
   }
+
+
+
+  

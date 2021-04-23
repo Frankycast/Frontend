@@ -297,4 +297,43 @@ commentForm.addEventListener("submit", (event) => {
 
 
 
+// <!-
+
+//  <!-- The Modal -->
+//  <div id="myModal" class="modal">
+//     <!-- Modal content -->
+// <div class="modal-content">
+  
+//   <div class="modal-header">
+//     <span class="close">&times;</span>    
+// </div>
+//     <div class="modal-body">
+//       <br>
+//                   <div class="thumbnail">
+//                     <a data-target=#myModal2 data-toggle="modal2" class="MainNavText2" id="MainNavHelp2" href="#myModal2"> 
+//                       <img src="./images/folder-closed.png" alt="folder-closed" width="200px" height="200px">
+//                       <!-- <h2 style="text-align:center;">a cat</h2>   -->
+//                     </a>
+                      
+//                           <a href="https://youtu.be/Z0wAPztOO2U" target="_blank">
+//                           <img src="./images/folder-closed.png" alt="folder-closed" width="200px" height="200px">
+//                           </a>
+//                           <!-- <h2 style="text-align:center;">a birds</h2> -->
+//                       </div> 
+//                       <div class="folder">
+//                         <a data-target=#myModal2 data-toggle="modal2" class="MainNavText2" id="MainNavHelp2" href="#myModal2"> 
+//                            <img src="./images/folder-closed.png" alt="folder-closed" width="150px" height="150px">
+//                            <img src="./images/folder-open.png" class="folder-open" alt="folder-open" width="150px" height="150px">
+//                           </a>
+
+//                        </div> 
+//                       <div class="thumbnail2">
+                          
+//                 </div>
+
+      
+//                 </div>
+//                 <div class="modal-footer">
+//                 </div>
+// </div> --></a>
 
