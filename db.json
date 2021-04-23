@@ -1,19 +1,36 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
+      "name": "Girl turns to plastic",
+      "post": "doctors working on a cure",
+      "image": "https://images-na.ssl-images-amazon.com/images/I/51eIaWvY0WL._AC_SY879_.jpg",
+      "likes": 235,
+      "dislikes": -39,
+      "comments": [
+        "how shes doing?"
+      ],
+      "id": 5
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "name": "Shoes get covid",
+      "post": "Scientists working on vaccine",
+      "image": "https://www.modern-notoriety.com/wp-content/uploads/2021/04/adidas-south-park-towelie-campus-80-GZ9177-3.jpeg",
+      "likes": 122,
+      "dislikes": -223,
+      "comments": [
+        "Ohhh Nooo",
+        "Even our shoes aren't safe"
+      ],
+      "id": 6
+    },
+    {
+      "name": "AnimeCentral",
+      "post": "Coming soon who's ready?",
+      "image": "https://demonslayer-anime.com/assets/img/kv.jpg",
+      "likes": 0,
+      "dislikes": 0,
+      "comments": [],
+      "id": 7
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }
